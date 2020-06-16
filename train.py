@@ -16,10 +16,10 @@ tensorboard = TensorBoard(log_dir='logs/epoach-{}-{}'.format(epoach, NAME), hist
 labels = []
 test_labels = []
 
-data = np.load('NR-ER-train/names_onehots.npy')
-test_data = np.load('NR-ER-test/names_onehots.npy')
+data = np.load('./NR-ER-train/names_onehots.npy', allow_pickle=True)
+test_data = np.load('./NR-ER-test/names_onehots.npy', allow_pickle=True)
 
-with open('NR-ER-train/names_labels.csv', 'r') as csvfile:
+with open('./NR-ER-train/names_labels.csv', 'r') as csvfile:
     # data = np.load('../NR-ER-score/names_onehots.npy')
     # with open('../NR-ER-score/names_labels.csv', 'r') as csvfile:
     # Reading the csv file
@@ -30,7 +30,7 @@ with open('NR-ER-train/names_labels.csv', 'r') as csvfile:
         content = row[1]
         labels.append(int(content))
 
-with open('NR-ER-test/names_labels.csv', 'r') as csvfile:
+with open('./NR-ER-test/names_labels.csv', 'r') as csvfile:
     # Reading the csv file
     rows = csv.reader(csvfile)
 
@@ -79,8 +79,7 @@ model.compile(loss='binary_crossentropy',
               metrics=['accuracy'])
 
 # Use TensorBoard to visualize the TensorFlow graph
-model.fit(smiles, labels, batch_size=32, epochs=epoach, validation_data=(test_smiles, test_labels),
-          callbacks=[tensorboard])
+model.fit(smiles, np.array(labels), batch_size=32, epochs=epoach, validation_data=(test_smiles, np.array(test_labels)),callbacks=[tensorboard])
 
 test_results = model.evaluate(test_smiles, test_labels)
 print(test_results)

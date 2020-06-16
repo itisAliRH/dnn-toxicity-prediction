@@ -5,9 +5,9 @@ import glob
 
 test_labels = []
 
-test_data = np.load('NR-ER-test/names_onehots.npy')
+test_data = np.load('./NR-ER-test/names_onehots.npy', allow_pickle=True)
 
-with open('NR-ER-test/names_labels.csv', 'r') as csvfile:
+with open('./NR-ER-test/names_labels.csv', 'r') as csvfile:
     # Reading the csv file
     rows = csv.reader(csvfile)
 
